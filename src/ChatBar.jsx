@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class ChatBar extends Component {
+
 	render() {
 		return (
 			<footer className="chatbar">
 				<input
+					value= {this.props.user.name}
 					className="chatbar-username"
 					placeholder="Your Name (Optional)"
 				/>
