@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 
+
+
+
 class App extends Component {
 constructor(props){
 	super(props);
@@ -40,7 +43,19 @@ onSubmit(event) {
 	this.setState({messages: messages})
 	this.state.content='';
 }
-// componentDidMount() {
+componentDidMount() {
+	const socketUrl = 'ws://localhost:3001';
+	
+
+    this.socket = new WebSocket(socketUrl);
+    this.socket.onopen = this.handleOnOpen;
+
+    this.socket.onmessage = this.handleOnMessage;
+
+	this.socket.onerror = this.handleOnError;
+	console.log('connect to server')
+  }
+
 //   console.log("componentDidMount <App />");
 //   setTimeout(() => {
 //     console.log("Simulating incoming message");
@@ -50,8 +65,7 @@ onSubmit(event) {
 //     // Update the state of the app component.
 //     // Calling setState will trigger a call to render() in App and all child components.
 //     this.setState({messages: messages})
-//   }, 3000);
-// }
+
 
 	render() {
 		return (
