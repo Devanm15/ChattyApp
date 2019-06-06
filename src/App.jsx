@@ -8,10 +8,11 @@ constructor(props){
 	super(props);
 
 	this.state = {
-		count: 0,
+		userCount: '',
 		content: '',
 		currentUser: {name: "anonymous"},
 		messages: []
+		
 	}
 	this.onContent = this.onContent.bind(this);
 	this.onSubmit = this.onSubmit.bind(this);
@@ -54,11 +55,16 @@ sendNotification = (oldUsername, newUsername) => {
 componentDidMount() {
 	const socketUrl = 'ws://localhost:3001';
 	this.socket = new WebSocket(socketUrl);
-	
 	this.socket.onmessage = (event) => {
-		const messages = this.state.messages.concat([JSON.parse(event.data)])
-	this.setState({messages: messages})
-
+		const parsedData = (JSON.parse(event.data))
+		console.log(parsedData)
+		if(parsedData.type === 'number'){
+			const count = parsedData.count
+			this.setState({userCount: count})	
+		}else {
+		const messages = this.state.messages.concat([parsedData])
+		this.setState({messages: messages})
+		}
 	}
 }
 
@@ -69,6 +75,7 @@ componentDidMount() {
 					<a href="/" className="navbar-brand">
 						Chatty
 					</a>
+					<h4>{this.state.userCount} users online</h4>
 				</nav>
 				<MessageList messages={this.state.messages}
 				user={this.state.currentUser}/>
