@@ -3,25 +3,26 @@ import ChatBar from './ChatBar.jsx';
 import MessageList from './MessageList.jsx';
 
 
-
-
-
-
 class App extends Component {
 constructor(props){
 	super(props);
 
 	this.state = {
+		count: 0,
 		content: '',
-
-		currentUser: {name: "Bob"},
+		currentUser: {name: "anonymous"},
 		messages: []
 	}
 	this.onContent = this.onContent.bind(this);
 	this.onSubmit = this.onSubmit.bind(this);
 }
 
-
+onUserUpdate = (event) =>{
+	const oldUsername = this.state.currentUser.name;
+	const newUsername = event.target.value 
+	this.setState({username: newUsername});
+	this.sendNotification(oldUsername, newUsername)
+}
 onContent(event) {
 	this.setState({
 		content: event.target.value
@@ -29,34 +30,37 @@ onContent(event) {
 }
 
 buildMessage(username, content){
-	const newMessage = {username: username, content: content};
+	const newMessage = {type:"postMessage", username: username, content: content};
 	return newMessage;
 }
 onSubmit(event) {
 	event.preventDefault(); 
-	const newMessage = this.buildMessage(this.state.currentUser.name, this.state.content)
+	const newMessage = this.buildMessage(this.state.username, this.state.content)
 	this.socket.send(JSON.stringify(newMessage));
-	// const messages = this.state.messages.concat(newMessage)
-	this.setState({messages: messages})
+
 	this.state.content='';
+	
 }
+
+sendNotification = (oldUsername, newUsername) => {
+	const newNotification = {
+	  type: 'postNotification',
+	  content: `${oldUsername} has changed their name to ${newUsername}`};
+	  console.log(newNotification)
+	  this.socket.send(JSON.stringify(newNotification));	
+}
+
 
 componentDidMount() {
 	const socketUrl = 'ws://localhost:3001';
 	this.socket = new WebSocket(socketUrl);
-  }
-// this,
+	
+	this.socket.onmessage = (event) => {
+		const messages = this.state.messages.concat([JSON.parse(event.data)])
+	this.setState({messages: messages})
 
-//   console.log("componentDidMount <App />");
-//   setTimeout(() => {
-//     console.log("Simulating incoming message");
-//     // Add a new message to the list of messages in the data store
-//     const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-//     const messages = this.state.messages.concat(newMessage)
-//     // Update the state of the app component.
-//     // Calling setState will trigger a call to render() in App and all child components.
-//     this.setState({messages: messages})
-
+	}
+}
 
 	render() {
 		return (
@@ -66,9 +70,11 @@ componentDidMount() {
 						Chatty
 					</a>
 				</nav>
-				<MessageList messages={this.state.messages}/>
+				<MessageList messages={this.state.messages}
+				user={this.state.currentUser}/>
 				<ChatBar user={this.state.currentUser}
-				content={this.state.content} onChange={this.onContent} onSubmit={this.onSubmit}/>
+				content={this.state.content} onChange={this.onContent} onSubmit={this.onSubmit} 
+				onUserUpdate={this.onUserUpdate}/>
 			</div>
 		);
 	}

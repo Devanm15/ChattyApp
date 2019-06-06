@@ -6,12 +6,14 @@ class ChatBar extends Component {
 		return (
 			<footer className="chatbar">
 				<input
-					defaultValue= {this.props.user.name}
+					onBlur= {this.props.onUserUpdate}
+					defaultValue = {this.props.currentUser}
+					// value= {this.props.userName}
 					className="chatbar-username"
 					placeholder="Your Name (Optional)"
 				/>
-				<form onSubmit={this.props.onSubmit} >
-					
+
+		<form onSubmit={this.props.onSubmit} >
 				<input
 					value = {this.props.content}
 					onChange = {this.props.onChange}

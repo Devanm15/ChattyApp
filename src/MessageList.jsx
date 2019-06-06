@@ -3,11 +3,11 @@ import Message from './Message.jsx';
 
 class MessageList extends Component {
 	render() {
-		const eachMessage = this.props.messages.map(message => {
+		const eachMessage = this.props.messages.map((message, id) => {
 		return <Message
 		username = {message.username}
 		content = {message.content}
-		key = {message.id}/>
+		key = {id}/>
 		})
 		return (
 			<main className="messages">
@@ -15,7 +15,7 @@ class MessageList extends Component {
 				
 
 				<div className="message system">
-					Anonymous1 changed their name to nomnom.
+					{/* Anonymous1 changed their name to nomnom. */}
 				</div>
 			</main>
 		);
