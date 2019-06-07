@@ -4,10 +4,10 @@ A real-time interactive chat application for users to post on to a chat board wi
 
 ##Screenshots 
 
-!["One User"](Screenshots/oneUser.png)
-!["Two Users"](Screenshots/twoUser.png)
-!["Three Users"](Screenshots/threeUser.png)
-!["Final"](Screenshots/final.png)
+!["One User"](./screenshots/oneUser.png)
+!["Two Users"](./screenshots/twoUser.png)
+!["Three Users"](./screenshots/threeUser.png)
+!["Final"](./screenshots/final.png)
 
 Install the dependencies and start the server.
 
