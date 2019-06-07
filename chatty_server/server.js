@@ -14,10 +14,12 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 
+
 let clientCount = 0;
+let clientList = {};
 
 wss.on('connection', (ws) => {
-    clientCount++;
+    clientCount++
 
     function UserCountBroadcast(count) {
         const dataObj = { type: 'number', count: count }
@@ -25,8 +27,6 @@ wss.on('connection', (ws) => {
         wss.clients.forEach(function each(client) {
             if (client.readyState === ws.OPEN) {
                 client.send(data);
-
-
             }
         })
     }
@@ -39,6 +39,16 @@ wss.on('connection', (ws) => {
         }
         if (parsedData.type == "postNotification") {
             parsedData.type = "incomingNotification";
+        }
+        parsedData.id = uuidv4();
+
+        const addClient = (client, parsedData) => {
+            clientList[parsedData.id] = {
+                id: parsedData.id,
+                username: parsedData.username,
+                color: parsedData.color,
+            };
+            client.id = clientInfo.id;
         }
         parsedData.id = uuidv4();
 

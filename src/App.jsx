@@ -38,7 +38,6 @@ onSubmit(event) {
 	event.preventDefault(); 
 	const newMessage = this.buildMessage(this.state.username, this.state.content)
 	this.socket.send(JSON.stringify(newMessage));
-
 	this.state.content='';
 	
 }
@@ -57,7 +56,6 @@ componentDidMount() {
 	this.socket = new WebSocket(socketUrl);
 	this.socket.onmessage = (event) => {
 		const parsedData = (JSON.parse(event.data))
-		console.log(parsedData)
 		if(parsedData.type === 'number'){
 			const count = parsedData.count
 			this.setState({userCount: count})	

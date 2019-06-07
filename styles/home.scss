@@ -1,5 +1,5 @@
 h1 {
-    color: tomato;
+    color: #26547C;
 }
 
 body {
@@ -11,7 +11,7 @@ body {
 }
 
 .chatbar {
-    background: tomato;
+    background: #C33C54;
     border-top: 1px solid black;
     bottom: 0;
     display: flex;
@@ -56,21 +56,24 @@ body {
     overflow: hidden;
     margin: 5px;
     padding: 0 10px;
+    color: #26547C
 }
 
 .message-content {
     flex: 8;
+    font-size: 16px
 }
 
 .message-username {
     flex: 2;
     font-weight: 700;
+    font-size: 2em
 }
 
 .navbar {
-    background: tomato;
+    background: #C33C54;
     border-bottom: 1px solid black;
-    height: 60px;
+    height: 80px;
     left: 0;
     padding: 0 10px;
     position: fixed;
@@ -79,13 +82,19 @@ body {
 }
 
 .navbar-brand {
-    color: inherit;
+    color: rgb(118, 163, 184);
     display: block;
     float: left;
     font-weight: 700;
-    font-size: 28px;
-    height: 60px;
+    font-size: 50px;
+    height: 80px;
     line-height: 60px;
     padding: 0 10px;
     text-decoration: none;
+}
+
+h4 {
+    color: rgb(118, 163, 184);
+    float: right;
+    font-size: 20px
 }
