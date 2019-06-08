@@ -16,7 +16,6 @@ const wss = new SocketServer({ server });
 
 
 let clientCount = 0;
-let clientList = {};
 
 wss.on('connection', (ws) => {
     clientCount++
@@ -30,7 +29,8 @@ wss.on('connection', (ws) => {
             }
         })
     }
-    UserCountBroadcast(clientCount)
+    ws.send( /*assign colour )*/ );
+    UserCountBroadcast(clientCount);
 
     ws.on('message', function incoming(data) {
         const parsedData = JSON.parse(data);
@@ -42,16 +42,6 @@ wss.on('connection', (ws) => {
         }
         parsedData.id = uuidv4();
 
-        const addClient = (client, parsedData) => {
-            clientList[parsedData.id] = {
-                id: parsedData.id,
-                username: parsedData.username,
-                color: parsedData.color,
-            };
-            client.id = clientInfo.id;
-        }
-        parsedData.id = uuidv4();
-
         function MessageBroadcast(data) {
             wss.clients.forEach(function each(client) {
                 if (client.readyState === ws.OPEN) {
@@ -60,8 +50,8 @@ wss.on('connection', (ws) => {
 
                 }
             })
-        }
 
+        }
         MessageBroadcast(JSON.stringify(parsedData));
 
         // Set up a callback for when a client closes the socket. This usually means they closed their browser.
@@ -71,7 +61,6 @@ wss.on('connection', (ws) => {
                 clientCount = 0
             }
             UserCountBroadcast(clientCount);
-            console.log('Client disconnected');
         })
     })
 });
